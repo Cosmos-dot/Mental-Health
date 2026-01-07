@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mental Health Analyzer</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* PAGE BACKGROUND */
+.page {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  padding: 30px 0;
+}
+
+/* CONTENT BOX */
+.content {
+  width: 80%;
+  margin: auto;
+  background: rgba(255,255,255,0.9);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.hidden { display: none; }
+
+h1, h2 {
+  text-align: center;
+  color: #1f2a44;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* FULL WIDTH BUT SHORT IMAGE */
+.hero {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* BUTTON */
+button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover { background: #2c80b4; }
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+/* QUIZ DARK MODE */
+.dark {
+  background: rgba(0,0,0,0.8);
+  color: white;
+}
+
+.dark h2 { color: #00c6ff; }
+
+.question {
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div class="page" id="home" style="background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content">
+    <img class="hero" src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1600&q=80">
+    <h1>Your Mental Health Matters 💙</h1>
+    <p>
+      Mental health is just as important as physical health.
+      Taking time to understand your emotions is a powerful act of self-care.
+    </p>
+    <center>
+      <button onclick="navigate('login')">Start Assessment</button>
+    </center>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="page hidden" id="login" style="background-image:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content">
+    <img class="hero" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80">
+    <h2>Login</h2>
+    <input placeholder="Username">
+    <input type="password" placeholder="Password">
+    <center>
+      <button onclick="navigate('quiz')">Login</button>
+    </center>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="page hidden" id="quiz" style="background-image:url('https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content dark">
+    <h2>Mental Health Quiz</h2>
+
+    <div class="question">1. I feel stressed frequently<br>
+      <input type="radio" name="q1" value="3"> Often
+      <input type="radio" name="q1" value="2"> Sometimes
+      <input type="radio" name="q1" value="1"> Rarely
+    </div>
+
+    <div class="question">2. I have trouble sleeping<br>
+      <input type="radio" name="q2" value="3"> Often
+      <input type="radio" name="q2" value="2"> Sometimes
+      <input type="radio" name="q2" value="1"> Rarely
+    </div>
+
+    <div class="question">3. I feel anxious without reason<br>
+      <input type="radio" name="q3" value="3"> Often
+      <input type="radio" name="q3" value="2"> Sometimes
+      <input type="radio" name="q3" value="1"> Rarely
+    </div>
+
+    <div class="question">4. I feel motivated during the day<br>
+      <input type="radio" name="q4" value="1"> Yes
+      <input type="radio" name="q4" value="2"> Sometimes
+      <input type="radio" name="q4" value="3"> No
+    </div>
+
+    <div class="question">5. I feel emotionally exhausted<br>
+      <input type="radio" name="q5" value="3"> Often
+      <input type="radio" name="q5" value="2"> Sometimes
+      <input type="radio" name="q5" value="1"> Rarely
+    </div>
+
+    <center>
+      <button onclick="calculate()">Submit Quiz</button>
+    </center>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div class="page hidden" id="report" style="background-image:url('https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content">
+    <img class="hero" src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=1600&q=80">
+    <h2>Assessment Report</h2>
+    <h3 id="result"></h3>
+    <p id="message"></p>
+    <p><b>Redirecting to helpline...</b></p>
+  </div>
+</div>
+
+<!-- HELPLINE -->
+<div class="page hidden" id="helpline" style="background-image:url('https://images.unsplash.com/photo-1580281657521-19d15a7bcd3d?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content">
+    <img class="hero" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80">
+    <h2>Mental Health Helpline</h2>
+    <p>📞 Emergency Helpline: <b>988</b></p>
+    <p>📧 help@mentalhealth.org</p>
+    <center>
+      <button onclick="navigate('thankyou')">Continue</button>
+    </center>
+  </div>
+</div>
+
+<!-- THANK YOU -->
+<div class="page hidden" id="thankyou" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
+  <div class="content">
+    <img class="hero" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80">
+    <h2>Thank You 💙</h2>
+    <p>
+      Thank you for taking care of your mental health.
+      You are not alone.
+    </p>
+  </div>
+</div>
+
+<script>
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById(page).classList.remove('hidden');
+}
+
+function calculate() {
+  let score = 0;
+  for (let i = 1; i <= 5; i++) {
+    let q = document.querySelector('input[name="q' + i + '"]:checked');
+    if (q) score += parseInt(q.value);
+  }
+
+  navigate('report');
+
+  const result = document.getElementById("result");
+  const message = document.getElementById("message");
+
+  if (score <= 7) {
+    result.innerHTML = "🟢 Mental Health Status: Healthy";
+    message.innerHTML = "You are handling stress well.";
+  } else if (score <= 11) {
+    result.innerHTML = "🟡 Mental Health Status: Moderate Stress";
+    message.innerHTML = "Try relaxation and emotional support.";
+  } else {
+    result.innerHTML = "🔴 Mental Health Status: High Stress";
+    message.innerHTML = "Please seek professional help.";
+  }
+
+  setTimeout(() => navigate('helpline'), 5000);
+}
+</script>
+
+</body>
+</html>
